@@ -18,11 +18,11 @@ public class DataFiltererTest {
 
   private static final String COUNTRY_EXISTS_ONCE = "GB";
   private static final String COUNTRY_EXISTS_MULTIPLE = "US";
+  private static final String ERROR_MESSAGE = "Invalid Data Line: GB,200";
   private static final long RESPONSE_TIME_BELOW_LIMIT = 100;
   private static final long RESPONSE_TIME_AT_AVERAGE = 526;
 
-  @Rule
-  public ExpectedException exceptionRule = ExpectedException.none();
+  @Rule public ExpectedException exceptionRule = ExpectedException.none();
 
   @Test
   public void returnEmptyListForEmptyFileWhenFilterByCountry() throws FileNotFoundException {
@@ -193,7 +193,7 @@ public class DataFiltererTest {
     // given
     FileReader invalidFile = getInvalidFile();
     exceptionRule.expect(InvalidDataException.class);
-    exceptionRule.expectMessage("Invalid Data!");
+    exceptionRule.expectMessage(ERROR_MESSAGE);
 
     // when
     DataFilterer.filterByCountry(invalidFile, COUNTRY_EXISTS_ONCE);
@@ -209,7 +209,7 @@ public class DataFiltererTest {
     // given
     FileReader invalidFile = getInvalidFile();
     exceptionRule.expect(InvalidDataException.class);
-    exceptionRule.expectMessage("Invalid Data!");
+    exceptionRule.expectMessage(ERROR_MESSAGE);
 
     // when
     DataFilterer.filterByCountryWithResponseTimeAboveLimit(
@@ -225,7 +225,7 @@ public class DataFiltererTest {
     // given
     FileReader invalidFile = getInvalidFile();
     exceptionRule.expect(InvalidDataException.class);
-    exceptionRule.expectMessage("Invalid Data!");
+    exceptionRule.expectMessage(ERROR_MESSAGE);
 
     // when
     DataFilterer.filterByResponseTimeAboveAverage(invalidFile);

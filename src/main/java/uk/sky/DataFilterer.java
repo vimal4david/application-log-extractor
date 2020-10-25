@@ -15,6 +15,7 @@ public class DataFilterer {
 
   private static final String COMMA_SEPARATOR = ",";
   private static final long DEFAULT_RESPONSE_TIME_LIMIT = 0;
+  private static final int VALID_LINE_SPLIT_SIZE = 3;
 
   public static Collection<?> filterByCountry(Reader source, String country) {
     return filterByCountryAndResponseTime(source, country, DEFAULT_RESPONSE_TIME_LIMIT);
@@ -52,8 +53,6 @@ public class DataFilterer {
               .collect(Collectors.toList());
     } catch (IOException e) {
       e.printStackTrace();
-    } catch (RuntimeException runtimeException) {
-      throw new InvalidDataException("Invalid Data!");
     }
     return result;
   }
@@ -72,8 +71,6 @@ public class DataFilterer {
               .collect(Collectors.toList());
     } catch (IOException ioe) {
       ioe.printStackTrace();
-    } catch (RuntimeException runtimeException) {
-      throw new InvalidDataException("Invalid Data!");
     }
     return result;
   }
@@ -84,6 +81,9 @@ public class DataFilterer {
 
   private static DataLine strToDataLine(String line) {
     String[] split = line.split(COMMA_SEPARATOR);
+    if (split.length != VALID_LINE_SPLIT_SIZE) {
+      throw new InvalidDataException("Invalid Data Line: " + line);
+    }
     return new DataLine(Long.parseLong(split[0]), split[1], Long.parseLong(split[2]));
   }
 
