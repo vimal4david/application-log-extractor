@@ -1,6 +1,8 @@
 package uk.sky;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +20,9 @@ public class DataFiltererTest {
   private static final String COUNTRY_EXISTS_MULTIPLE = "US";
   private static final long RESPONSE_TIME_BELOW_LIMIT = 100;
   private static final long RESPONSE_TIME_AT_AVERAGE = 526;
+
+  @Rule
+  public ExpectedException exceptionRule = ExpectedException.none();
 
   @Test
   public void returnEmptyListForEmptyFileWhenFilterByCountry() throws FileNotFoundException {
@@ -182,6 +187,53 @@ public class DataFiltererTest {
     assertEquals(expected, actual);
   }
 
+  @Test
+  public void InvalidDataExceptionThrownForInvalidDataWhenFilterByCountry()
+      throws FileNotFoundException {
+    // given
+    FileReader invalidFile = getInvalidFile();
+    exceptionRule.expect(InvalidDataException.class);
+    exceptionRule.expectMessage("Invalid Data!");
+
+    // when
+    DataFilterer.filterByCountry(invalidFile, COUNTRY_EXISTS_ONCE);
+
+    // then
+    // Expected exception
+  }
+
+  @Test
+  public void
+      InvalidDataExceptionThrownForInvalidDataWhenFilterByCountryWithResponseTimeAboveLimit()
+          throws FileNotFoundException {
+    // given
+    FileReader invalidFile = getInvalidFile();
+    exceptionRule.expect(InvalidDataException.class);
+    exceptionRule.expectMessage("Invalid Data!");
+
+    // when
+    DataFilterer.filterByCountryWithResponseTimeAboveLimit(
+        invalidFile, COUNTRY_EXISTS_ONCE, RESPONSE_TIME_BELOW_LIMIT);
+
+    // then
+    // Expected exception
+  }
+
+  @Test
+  public void InvalidDataExceptionThrownForInvalidDataWhenFilterByResponseTimeAboveAverage()
+      throws FileNotFoundException {
+    // given
+    FileReader invalidFile = getInvalidFile();
+    exceptionRule.expect(InvalidDataException.class);
+    exceptionRule.expectMessage("Invalid Data!");
+
+    // when
+    DataFilterer.filterByResponseTimeAboveAverage(invalidFile);
+
+    // then
+    // Expected exception
+  }
+
   private List<DataLine> getFilteredDataLineList(String countryToFilter) {
     return getDataLines().parallelStream()
         .filter(x -> countryToFilter.equals(x.getCountryCode()))
@@ -212,6 +264,10 @@ public class DataFiltererTest {
 
   private FileReader getMultiLineFile() throws FileNotFoundException {
     return openFile("src/test/resources/multi-lines");
+  }
+
+  private FileReader getInvalidFile() throws FileNotFoundException {
+    return openFile("src/test/resources/invalid-line");
   }
 
   private FileReader openFile(String filename) throws FileNotFoundException {
