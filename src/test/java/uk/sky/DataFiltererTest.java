@@ -38,13 +38,13 @@ public class DataFiltererTest {
 
   @Test
   public void returnEmptyListForEmptyFileWhenFilterByCountryWithResponseTimeAboveLimit()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader emptyFile = getEmptyFile();
 
     // when
     Collection<?> actual =
-        DataFilterer.filterByCountryWithResponseTimeAboveLimit(emptyFile, COUNTRY_EXISTS_ONCE, RESPONSE_TIME_BELOW_LIMIT);
+            DataFilterer.filterByCountryWithResponseTimeAboveLimit(emptyFile, COUNTRY_EXISTS_ONCE, RESPONSE_TIME_BELOW_LIMIT);
 
     // then
     assertTrue(actual.isEmpty());
@@ -52,7 +52,7 @@ public class DataFiltererTest {
 
   @Test
   public void returnEmptyListForEmptyFileWhenFilterByResponseTimeAboveAverage()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader source = getEmptyFile();
 
@@ -77,13 +77,13 @@ public class DataFiltererTest {
 
   @Test
   public void returnEmptyListForHeaderLineFileWhenFilterByCountryWithResponseTimeAboveLimit()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader emptyFile = getHeaderLineFile();
 
     // when
     Collection<?> actual =
-        DataFilterer.filterByCountryWithResponseTimeAboveLimit(emptyFile, COUNTRY_EXISTS_ONCE, RESPONSE_TIME_BELOW_LIMIT);
+            DataFilterer.filterByCountryWithResponseTimeAboveLimit(emptyFile, COUNTRY_EXISTS_ONCE, RESPONSE_TIME_BELOW_LIMIT);
 
     // then
     assertTrue(actual.isEmpty());
@@ -91,7 +91,7 @@ public class DataFiltererTest {
 
   @Test
   public void returnEmptyListForHeaderLineFileWhenFilterByResponseTimeAboveAverage()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader source = getHeaderLineFile();
 
@@ -104,7 +104,7 @@ public class DataFiltererTest {
 
   @Test
   public void returnSingletonListForSingleLineFileWhenFilterByCountry()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader source = getSingleLineFile();
 
@@ -118,13 +118,13 @@ public class DataFiltererTest {
 
   @Test
   public void returnSingletonListForSingleLineFileWhenFilterByCountryWithResponseTimeAboveLimit()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader source = getSingleLineFile();
 
     // when
     Collection<?> actual =
-        DataFilterer.filterByCountryWithResponseTimeAboveLimit(source, COUNTRY_EXISTS_ONCE, RESPONSE_TIME_BELOW_LIMIT);
+            DataFilterer.filterByCountryWithResponseTimeAboveLimit(source, COUNTRY_EXISTS_ONCE, RESPONSE_TIME_BELOW_LIMIT);
 
     // then
     Collection<?> expected = getFilteredDataLineList(COUNTRY_EXISTS_ONCE);
@@ -133,7 +133,7 @@ public class DataFiltererTest {
 
   @Test
   public void returnEmptyListForSingleLineFileWhenFilterByResponseTimeAboveAverage()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader source = getSingleLineFile();
 
@@ -146,7 +146,7 @@ public class DataFiltererTest {
 
   @Test
   public void returnExpectedListForDoubleLineFileWhenFilterByCountry()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader source = getMultiLineFile();
 
@@ -160,13 +160,13 @@ public class DataFiltererTest {
 
   @Test
   public void returnExpectedListForDoubleLineFileWhenFilterByCountryWithResponseTimeAboveLimit()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader source = getMultiLineFile();
 
     // when
     Collection<?> actual =
-        DataFilterer.filterByCountryWithResponseTimeAboveLimit(source, COUNTRY_EXISTS_MULTIPLE, RESPONSE_TIME_AT_AVERAGE);
+            DataFilterer.filterByCountryWithResponseTimeAboveLimit(source, COUNTRY_EXISTS_MULTIPLE, RESPONSE_TIME_AT_AVERAGE);
 
     // then
     List<DataLine> expected = getFilteredDataLineList(COUNTRY_EXISTS_MULTIPLE);
@@ -175,7 +175,7 @@ public class DataFiltererTest {
 
   @Test
   public void returnExpectedListForDoubleLineFileWhenFilterByResponseTimeAboveAverage()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader source = getMultiLineFile();
 
@@ -189,7 +189,7 @@ public class DataFiltererTest {
 
   @Test
   public void InvalidDataExceptionThrownForInvalidDataWhenFilterByCountry()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader invalidFile = getInvalidFile();
     exceptionRule.expect(InvalidDataException.class);
@@ -204,7 +204,7 @@ public class DataFiltererTest {
 
   @Test
   public void
-      InvalidDataExceptionThrownForInvalidDataWhenFilterByCountryWithResponseTimeAboveLimit()
+  InvalidDataExceptionThrownForInvalidDataWhenFilterByCountryWithResponseTimeAboveLimit()
           throws FileNotFoundException {
     // given
     FileReader invalidFile = getInvalidFile();
@@ -213,7 +213,7 @@ public class DataFiltererTest {
 
     // when
     DataFilterer.filterByCountryWithResponseTimeAboveLimit(
-        invalidFile, COUNTRY_EXISTS_ONCE, RESPONSE_TIME_BELOW_LIMIT);
+            invalidFile, COUNTRY_EXISTS_ONCE, RESPONSE_TIME_BELOW_LIMIT);
 
     // then
     // Expected exception
@@ -221,7 +221,7 @@ public class DataFiltererTest {
 
   @Test
   public void InvalidDataExceptionThrownForInvalidDataWhenFilterByResponseTimeAboveAverage()
-      throws FileNotFoundException {
+          throws FileNotFoundException {
     // given
     FileReader invalidFile = getInvalidFile();
     exceptionRule.expect(InvalidDataException.class);
@@ -236,8 +236,8 @@ public class DataFiltererTest {
 
   private List<DataLine> getFilteredDataLineList(String countryToFilter) {
     return getDataLines().parallelStream()
-        .filter(x -> countryToFilter.equals(x.getCountryCode()))
-        .collect(Collectors.toList());
+            .filter(x -> countryToFilter.equals(x.getCountryCode()))
+            .collect(Collectors.toList());
   }
 
   private ArrayList<DataLine> getDataLines() {
