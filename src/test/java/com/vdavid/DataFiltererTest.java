@@ -1,4 +1,4 @@
-package uk.sky;
+package com.vdavid;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -271,6 +271,6 @@ public class DataFiltererTest {
   }
 
   private FileReader openFile(String filename) throws FileNotFoundException {
-    return new FileReader(new File(filename));
+    return new FileReader(filename);
   }
 }

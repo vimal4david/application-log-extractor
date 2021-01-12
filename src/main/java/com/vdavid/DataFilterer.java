@@ -1,4 +1,4 @@
-package uk.sky;
+package com.vdavid;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,11 +35,8 @@ public class DataFilterer {
               .lines()
               .skip(1)
               .map(DataFilterer::strToDataLine)
-              .map(
-                  dataLine -> {
-                    responseTimeAggregate.addAndGet(dataLine.getResponseTime());
-                    return dataLine;
-                  })
+              .peek(
+                  dataLine -> responseTimeAggregate.addAndGet(dataLine.getResponseTime()))
               .collect(Collectors.toList());
 
       if (unFilteredList.isEmpty()) {
